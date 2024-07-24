@@ -1,0 +1,51 @@
+import time
+import random
+
+# Example search functions
+def data_preparation(data):
+    time.sleep(random.uniform(0.1, 0.3))  # Simulate work with a sleep
+    return sorted(data)
+
+def search_algorithm(data, target):
+    time.sleep(random.uniform(0.2, 0.4))  # Simulate work with a sleep
+    return target in data
+
+def post_processing(result):
+    time.sleep(random.uniform(0.05, 0.2))  # Simulate work with a sleep
+    return f"Result found: {result}"
+
+def measure_execution_time(function, *args):
+    start_time = time.time()
+    result = function(*args)
+    end_time = time.time()
+    execution_time = end_time - start_time
+    return execution_time, result
+
+def main():
+    data = [random.randint(0, 100) for _ in range(1000)]
+    target = random.randint(0, 100)
+
+    # Measure the execution time of each part
+    prep_time, prepared_data = measure_execution_time(data_preparation, data)
+    search_time, search_result = measure_execution_time(search_algorithm, prepared_data, target)
+    post_time, post_result = measure_execution_time(post_processing, search_result)
+
+    # Print execution times
+    print(f"Data Preparation Time: {prep_time:.4f} seconds")
+    print(f"Search Algorithm Time: {search_time:.4f} seconds")
+    print(f"Post Processing Time: {post_time:.4f} seconds")
+
+    # Find the slowest part
+    times = {
+        "Data Preparation": prep_time,
+        "Search Algorithm": search_time,
+        "Post Processing": post_time
+    }
+
+    slowest_part = max(times, key=times.get)
+    slowest_time = times[slowest_part]
+
+    print(f"The slowest part is '{slowest_part}' with {slowest_time:.4f} seconds.")
+
+if __name__ == "__main__":
+    main()
